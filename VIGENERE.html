@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Vigenère Cipher</title>
+</head>
+<body>
+    <div class="container">
+        <h2>Vigenère Cipher</h2>
+        <label for="inputText">Texte :</label>
+        <textarea id="inputText" placeholder="Entrez votre texte..." rows="4"></textarea>
+        
+        <label for="key">Clé :</label>
+        <input type="text" id="key" placeholder="Entrez la clé de chiffrement">
+
+        <button onclick="encrypt()">Chiffrer</button>
+        <button onclick="decrypt()">Déchiffrer</button>
+
+        <label for="outputText">Résultat :</label>
+        <textarea id="outputText" rows="4" readonly></textarea>
+    </div>
+
+   <script language = "Javascript">
+  function encrypt() {
+    var inputText = document.getElementById("inputText").value.toUpperCase();
+    var key = document.getElementById("key").value.toUpperCase();
+    var outputText = "";
+
+    for (var i = 0, j = 0; i < inputText.length; i++) {
+        var currentChar = inputText.charAt(i);
+
+        if (currentChar.match(/[A-Z]/)) {
+            var shift = key.charCodeAt(j) - 'A'.charCodeAt(0);
+            outputText += String.fromCharCode((currentChar.charCodeAt(0) + shift - 'A'.charCodeAt(0)) % 26 + 'A'.charCodeAt(0));
+            j = (j + 1) % key.length;
+        } else {
+            outputText += currentChar;
+        }
+    }
+
+    document.getElementById("outputText").value = outputText;
+}
+
+function decrypt() {
+    var inputText = document.getElementById("inputText").value.toUpperCase();
+    var key = document.getElementById("key").value.toUpperCase();
+    var outputText = "";
+
+    for (var i = 0, j = 0; i < inputText.length; i++) {
+        var currentChar = inputText.charAt(i);
+
+        if (currentChar.match(/[A-Z]/)) {
+            var shift = key.charCodeAt(j) - 'A'.charCodeAt(0);
+            outputText += String.fromCharCode((currentChar.charCodeAt(0) - shift - 'A'.charCodeAt(0) + 26) % 26 + 'A'.charCodeAt(0));
+            j = (j + 1) % key.length;
+        } else {
+            outputText += currentChar;
+        }
+    }
+
+    document.getElementById("outputText").value = outputText;
+}
+    </script>
+</body>
+</html>
